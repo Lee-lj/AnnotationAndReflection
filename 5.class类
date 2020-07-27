@@ -1,0 +1,50 @@
+Class类:
+对象通过照镜子(反射)之后得到的信息:某个类的属性，方法和构造器，某个类到底实现了哪些接口。对于每个类而言，
+JRE都为其保留一个不变的Class类型的对象，一个class对象包含了特定某个结构(class/interface/enum/annotation/primitive type/void)
+的有关信息
+class本身也是一个类
+class对象只能由系统建立
+一个加载的类在JVM中只会有一个class实例
+一个class对象对应的是一个加载到JVM中的一个.class文件
+每个类的实例都会记得自己是由哪个class实例生成的
+通过Class可以完整的取得一个类中的所有被加载的结构
+Class类是Reflection(反射)的根源，针对任何你想动态加载，运行的类得先获得对应的Class对象
+
+Class类的常用方法:
+static ClassforName(String name) 返回指定的name的类的Class对象      Class.forName("注解与反射.User");包名+类名
+Object newInstance() 调用缺省构造函数，返回Class对象的一个实例      通过反射创建一个对象，类似于new
+getName() 返回此Class对象所表示的实体(类，接口，数组类或void)的名称
+Class getSuperClass() 返回当前Class对象的父类的Class对象
+Class[] getinterfaces() 获取当前Class对象的接口
+ClassLoader getClassLoader 返回该类的类加载器
+Constructor[] getConstructors() 返回一个包含某些Constructor对象的数组
+Method getMethod(String name,Class T) 返回一个Method对象，此对象的形参类型为paramType(输入值)
+Field[] getDeclaredFields() 返回Field对象的一个数组
+
+获取Class类的实例
+1.如果已知具体的类，通过类的class属性获取，这种方法最安全可靠，程序性能最高
+       Class xxx=Person.class
+2.已知某个类的实例，调用该实例的getClass()方法获取Class对象
+       Class forName = Person.getClass();
+3.已知一个类的全类名，且该类在类路径下，通过Class类的静态方法forName()获取，可能抛出ClassNotFoundException(找不到这个类)
+       Class forName = Class.forName("注解与反射.User");
+4.内置基本数据类型可以直接用类名.Type
+5.还可以利用ClassLoader	
+
+
+哪些类可以有Class对象
+class:外部类，成员(成员内部类，静态内部类)，局部内部类，匿名内部类
+interface:接口
+[]:数组
+enum:枚举
+annotation:注解
+primitive type 基本数据类型
+void
+
+
+int[] a=new int[10];
+         int[] b=new int[1000];
+         System.out.println(a.getClass());
+         System.out.println(b.getClass());
+         //class [I
+         //class [I  两个长度不等的数组输出的是同一个类。  只要元素类型和维度(一维数组等等)相同，就是同一个Class对象
